@@ -1,7 +1,6 @@
 package com.chatwithme.backend.device;
 
 import com.chatwithme.backend.device.dto.DeviceResponse;
-import com.chatwithme.backend.device.dto.HeartbeatRequest;
 import com.chatwithme.backend.device.dto.RegisterDeviceRequest;
 import com.chatwithme.backend.device.dto.RegisterDeviceResponse;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,24 +29,20 @@ public class DeviceService {
     public RegisterDeviceResponse registerDevice(RegisterDeviceRequest request) {
         Instant now = Instant.now();
         Device device = deviceRepository.findById(request.deviceId())
-                .orElseGet(() -> new Device(request.deviceId(), request.name(), request.platform(), request.fcmToken(), now));
+                .orElseGet(() -> new Device(request.deviceId(), request.name(), request.platform(), now));
 
         device.setName(request.name());
         device.setPlatform(request.platform());
-        device.setFcmToken(request.fcmToken());
         device.setLastSeenAt(now);
         deviceRepository.save(device);
 
         return new RegisterDeviceResponse(device.getDeviceId(), now);
     }
 
-    public void heartbeat(String deviceId, HeartbeatRequest request) {
+    public void heartbeat(String deviceId) {
         Device device = deviceRepository.findById(deviceId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Device not registered: " + deviceId));
 
-        if (request != null && request.fcmToken() != null && !request.fcmToken().isBlank()) {
-            device.setFcmToken(request.fcmToken());
-        }
         device.setLastSeenAt(Instant.now());
         deviceRepository.save(device);
     }

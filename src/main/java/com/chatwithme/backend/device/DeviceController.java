@@ -1,7 +1,6 @@
 package com.chatwithme.backend.device;
 
 import com.chatwithme.backend.device.dto.DeviceResponse;
-import com.chatwithme.backend.device.dto.HeartbeatRequest;
 import com.chatwithme.backend.device.dto.RegisterDeviceRequest;
 import com.chatwithme.backend.device.dto.RegisterDeviceResponse;
 import jakarta.validation.Valid;
@@ -34,8 +33,8 @@ public class DeviceController {
 
     @PostMapping("/{deviceId}/heartbeat")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void heartbeat(@PathVariable String deviceId, @RequestBody(required = false) HeartbeatRequest request) {
-        deviceService.heartbeat(deviceId, request);
+    public void heartbeat(@PathVariable String deviceId) {
+        deviceService.heartbeat(deviceId);
     }
 
     @GetMapping

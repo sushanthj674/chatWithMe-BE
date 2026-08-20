@@ -1,7 +1,5 @@
 package com.chatwithme.backend.message;
 
-import com.chatwithme.backend.device.Device;
-import com.chatwithme.backend.device.DeviceRepository;
 import com.chatwithme.backend.message.dto.MessageResponse;
 import com.chatwithme.backend.message.dto.SendMessageRequest;
 import com.chatwithme.backend.push.FcmPushService;
@@ -16,12 +14,10 @@ import java.util.List;
 public class MessageService {
 
     private final MessageRepository messageRepository;
-    private final DeviceRepository deviceRepository;
     private final FcmPushService fcmPushService;
 
-    public MessageService(MessageRepository messageRepository, DeviceRepository deviceRepository, FcmPushService fcmPushService) {
+    public MessageService(MessageRepository messageRepository, FcmPushService fcmPushService) {
         this.messageRepository = messageRepository;
-        this.deviceRepository = deviceRepository;
         this.fcmPushService = fcmPushService;
     }
 
@@ -29,19 +25,12 @@ public class MessageService {
         Message message = new Message(request.deviceId(), request.senderName(), request.text(), Instant.now());
         message = messageRepository.save(message);
 
-        List<String> otherTokens = deviceRepository.findAll().stream()
-                .filter(device -> !device.getDeviceId().equals(request.deviceId()))
-                .map(Device::getFcmToken)
-                .filter(token -> token != null && !token.isBlank())
-                .toList();
-
         fcmPushService.broadcastMessage(
                 message.getId(),
                 message.getDeviceId(),
                 message.getSenderName(),
                 message.getText(),
-                message.getCreatedAt(),
-                otherTokens
+                message.getCreatedAt()
         );
 
         return toResponse(message);

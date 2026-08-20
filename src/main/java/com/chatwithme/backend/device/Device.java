@@ -21,9 +21,6 @@ public class Device {
     @Column(nullable = false)
     private String platform;
 
-    @Column(length = 1024)
-    private String fcmToken;
-
     @Column(nullable = false)
     private Instant lastSeenAt;
 
@@ -31,11 +28,10 @@ public class Device {
         // JPA
     }
 
-    public Device(String deviceId, String name, String platform, String fcmToken, Instant lastSeenAt) {
+    public Device(String deviceId, String name, String platform, Instant lastSeenAt) {
         this.deviceId = deviceId;
         this.name = name;
         this.platform = platform;
-        this.fcmToken = fcmToken;
         this.lastSeenAt = lastSeenAt;
     }
 
@@ -57,14 +53,6 @@ public class Device {
 
     public void setPlatform(String platform) {
         this.platform = platform;
-    }
-
-    public String getFcmToken() {
-        return fcmToken;
-    }
-
-    public void setFcmToken(String fcmToken) {
-        this.fcmToken = fcmToken;
     }
 
     public Instant getLastSeenAt() {
