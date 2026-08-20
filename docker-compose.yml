@@ -5,7 +5,9 @@ services:
       - "8080:8080"
     environment:
       - FIREBASE_SERVICE_ACCOUNT_PATH=/secrets/firebase-service-account.json
+      - DB_URL=${DB_URL}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
     volumes:
-      - ./data:/app/data
       - ${FIREBASE_SERVICE_ACCOUNT_HOST_PATH:-/dev/null}:/secrets/firebase-service-account.json:ro
     restart: unless-stopped
