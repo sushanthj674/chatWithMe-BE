@@ -1,0 +1,14 @@
+target/
+data/
+*.class
+
+# Firebase Admin SDK service account key — never commit this.
+*serviceAccount*.json
+firebase-service-account*.json
+
+.idea/
+*.iml
+.vscode/
+.DS_Store
+
+.env

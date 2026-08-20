@@ -1,0 +1,11 @@
+services:
+  backend:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - FIREBASE_SERVICE_ACCOUNT_PATH=/secrets/firebase-service-account.json
+    volumes:
+      - ./data:/app/data
+      - ${FIREBASE_SERVICE_ACCOUNT_HOST_PATH:-/dev/null}:/secrets/firebase-service-account.json:ro
+    restart: unless-stopped
