@@ -52,6 +52,10 @@ public class DeviceService {
         deviceRepository.save(device);
     }
 
+    public void deleteAllDevices() {
+        deviceRepository.deleteAll();
+    }
+
     public List<DeviceResponse> listDevices() {
         Instant now = Instant.now();
         return deviceRepository.findAll().stream()

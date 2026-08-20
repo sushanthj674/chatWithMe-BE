@@ -47,6 +47,10 @@ public class MessageService {
         return toResponse(message);
     }
 
+    public void deleteAllMessages() {
+        messageRepository.deleteAll();
+    }
+
     public List<MessageResponse> getMessages(Instant since, int limit) {
         List<Message> messages;
         if (since != null) {

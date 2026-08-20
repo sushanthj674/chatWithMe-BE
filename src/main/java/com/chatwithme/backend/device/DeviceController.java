@@ -6,6 +6,7 @@ import com.chatwithme.backend.device.dto.RegisterDeviceRequest;
 import com.chatwithme.backend.device.dto.RegisterDeviceResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,5 +41,12 @@ public class DeviceController {
     @GetMapping
     public List<DeviceResponse> list() {
         return deviceService.listDevices();
+    }
+
+    // Dev-only: wipes the device registry. No auth guards this endpoint.
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteAll() {
+        deviceService.deleteAllDevices();
     }
 }

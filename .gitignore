@@ -1,6 +1,7 @@
 target/
 data/
 *.class
+db/
 
 # Firebase Admin SDK service account key — never commit this.
 *serviceAccount*.json
